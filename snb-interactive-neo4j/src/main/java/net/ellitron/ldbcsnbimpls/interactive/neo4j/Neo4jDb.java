@@ -1732,7 +1732,8 @@ public class Neo4jDb extends Db {
               + " WHERE t.id IN $tagIds"
               + " WITH p, c, collect(t) AS tagSet"
               + " CREATE (p)-[:IS_LOCATED_IN]->(c)"
-              + " FOREACH(t IN tagSet| CREATE (p)-[:HAS_INTEREST]->(t))";
+              + " WITH p, tagSet UNWIND tagSet AS t"
+              + " CREATE (p)-[:HAS_INTEREST]->(t)";
           parameters = parameters(
               "personId", String.valueOf(operation.personId()),
               "cityId", String.valueOf(operation.cityId()),
@@ -1926,7 +1927,8 @@ public class Neo4jDb extends Db {
               + " WHERE t.id IN $tagIds"
               + " WITH f, p, collect(t) as tagSet"
               + " CREATE (f)-[:HAS_MODERATOR]->(p)"
-              + " FOREACH (t IN tagSet| CREATE (f)-[:HAS_TAG]->(t))";
+              + " WITH f, tagSet UNWIND tagSet AS t"
+              + " CREATE (f)-[:HAS_TAG]->(t)";
           parameters = parameters(
               "forumId", String.valueOf(operation.forumId()),
               "moderatorId", String.valueOf(operation.moderatorPersonId()),
@@ -2039,7 +2041,8 @@ public class Neo4jDb extends Db {
               + " CREATE (m)-[:HAS_CREATOR]->(p),"
               + "        (m)<-[:CONTAINER_OF]-(f),"
               + "        (m)-[:IS_LOCATED_IN]->(c)"
-              + " FOREACH (t IN tagSet| CREATE (m)-[:HAS_TAG]->(t))";
+              + " WITH m, tagSet UNWIND tagSet AS t"
+              + " CREATE (m)-[:HAS_TAG]->(t)";
           parameters = parameters(
               "postId", String.valueOf(operation.postId()),
               "authorId", String.valueOf(operation.authorPersonId()),
@@ -2108,7 +2111,8 @@ public class Neo4jDb extends Db {
               + " CREATE (m)-[:HAS_CREATOR]->(p),"
               + "        (m)-[:REPLY_OF]->(r),"
               + "        (m)-[:IS_LOCATED_IN]->(c)"
-              + " FOREACH (t IN tagSet| CREATE (m)-[:HAS_TAG]->(t))";
+              + " WITH m, tagSet UNWIND tagSet AS t"
+              + " CREATE (m)-[:HAS_TAG]->(t)";
           parameters = parameters(
               "commentId", String.valueOf(operation.commentId()),
               "authorId", String.valueOf(operation.authorPersonId()),
