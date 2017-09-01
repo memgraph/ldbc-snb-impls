@@ -1758,9 +1758,9 @@ public class Neo4jDb extends Db {
                 createBldr.append(", ");
               }
               matchBldr.append(
-                  String.format("(u%d:Organisation {id:{uId%d}})", i, i));
+                  String.format("(u%d:Organisation {id:$uId%d})", i, i));
               createBldr.append(
-                  String.format("(p)-[:STUDY_AT {classYear:{cY%d}}]->(u%d)", i, i));
+                  String.format("(p)-[:STUDY_AT {classYear:$cY%d}]->(u%d)", i, i));
               params.add(String.format("uId%d", i));
               params.add(String.format("%d", org.organizationId()));
               params.add(String.format("cY%d", i));
@@ -1792,9 +1792,9 @@ public class Neo4jDb extends Db {
                 createBldr.append(", ");
               }
               matchBldr.append(
-                  String.format("(c%d:Organisation {id:{cId%d}})", i, i));
+                  String.format("(c%d:Organisation {id:$cId%d})", i, i));
               createBldr.append(
-                  String.format("(p)-[:WORK_AT {workFrom:{wF%d}}]->(c%d)", i, i));
+                  String.format("(p)-[:WORK_AT {workFrom:$wF%d}]->(c%d)", i, i));
               params.add(String.format("cId%d", i));
               params.add(String.format("%d", org.organizationId()));
               params.add(String.format("wF%d", i));
