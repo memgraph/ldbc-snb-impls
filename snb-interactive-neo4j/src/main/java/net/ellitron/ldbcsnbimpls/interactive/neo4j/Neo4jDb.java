@@ -1352,7 +1352,7 @@ public class Neo4jDb extends Db {
           + " MATCH (p)-[:HAS_CREATOR]->(c)"
           + " RETURN"
           + "   m.id as messageId,"
-          + "   CASE exists(m.content)"
+          + "   CASE m.content is not null"
           + "     WHEN true THEN m.content"
           + "     ELSE m.imageFile"
           + "   END AS messageContent,"
@@ -1467,7 +1467,7 @@ public class Neo4jDb extends Db {
       String statement =
           "   MATCH (m:Message {id:$id})"
           + " RETURN"
-          + "   CASE exists(m.content)"
+          + "   CASE m.content is not null"
           + "     WHEN true THEN m.content"
           + "     ELSE m.imageFile"
           + "   END AS messageContent,"
