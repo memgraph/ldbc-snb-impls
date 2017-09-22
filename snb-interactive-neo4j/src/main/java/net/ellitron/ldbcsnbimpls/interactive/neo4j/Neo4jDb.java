@@ -243,7 +243,7 @@ public class Neo4jDb extends Db {
       String statement =
           "   MATCH (:Person {id:$1})-[path:KNOWS*1..3]-(friend:Person)"
           + " WHERE friend.firstName = $2"
-          + " WITH friend, min(length(path)) AS distance"
+          + " WITH friend, min(size(path)) AS distance"
           + " ORDER BY distance ASC, friend.lastName ASC, toInteger(friend.id) ASC"
           + " LIMIT $3"
           + " MATCH (friend)-[:IS_LOCATED_IN]->(friendCity:Place)"
@@ -383,7 +383,7 @@ public class Neo4jDb extends Db {
           + "   friend.firstName AS personFirstName,"
           + "   friend.lastName AS personLastName,"
           + "   message.id AS messageId,"
-          + "   CASE exists(message.content)"
+          + "   CASE message.content is not null"
           + "     WHEN true THEN message.content"
           + "     ELSE message.imageFile"
           + "   END AS messageContent,"
@@ -549,7 +549,7 @@ public class Neo4jDb extends Db {
           + " WHERE oldPostCount=0"
           + " RETURN"
           + "   tag.name AS tagName,"
-          + "   length(collect(post)) AS postCount"
+          + "   size(collect(post)) AS postCount"
           + " ORDER BY postCount DESC, tagName ASC"
           + " LIMIT $4";
       Value parameters = parameters(
@@ -878,7 +878,7 @@ public class Neo4jDb extends Db {
           + "   friend.firstName AS personFirstName,"
           + "   friend.lastName AS personLastName,"
           + "   message.id AS messageId,"
-          + "   CASE exists(message.content)"
+          + "   CASE message.content is not null"
           + "     WHEN true THEN message.content"
           + "     ELSE message.imageFile"
           + "   END AS messageContent,"
