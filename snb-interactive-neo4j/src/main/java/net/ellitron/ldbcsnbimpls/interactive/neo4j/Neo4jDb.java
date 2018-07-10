@@ -808,7 +808,7 @@ public class Neo4jDb extends Db {
 
       String statement =
           "   MATCH"
-          + "   (start:Person {id:$1})<-[:HAS_CREATOR]-()<-[:REPLY_OF]-(comment:Comment)-[:HAS_CREATOR]->(person:Person)"
+          + "   (:Person {id:$1})<-[:HAS_CREATOR]-()<-[:REPLY_OF]-(comment:Comment)-[:HAS_CREATOR]->(person:Person)"
           + " RETURN"
           + "   person.id AS personId,"
           + "   person.firstName AS personFirstName,"
